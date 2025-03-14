@@ -9,6 +9,10 @@ permissions:
 on:
   workflow_call:
     inputs:
+      primaryId:
+        type: string
+        required: true
+        description: Primary Run ID to carry through layers
       website-url:
         type: string
         required: true
@@ -26,6 +30,11 @@ on:
         required: true
       GH_TOKEN:
         required: true
+      LOGIN_USERNAME:
+        required: false
+      LOGIN_PASSWORD:
+        required: false
+
     outputs:
       results:
         value: ${{ jobs.get-results.outputs.results }}
@@ -41,6 +50,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: ${{ inputs.base-branch }}
+          fetch-depth: 0
 
       - name: Find all markdown files and extract filenames
         id: markdown_list
@@ -49,6 +59,7 @@ jobs:
           FILES=$(git show --name-only --format= | grep "^testdriver/generate/.*\.md$" || true)
           FILENAMES=$(echo "$FILES" | while IFS= read -r file; do basename "$file" .md; done)
           FILES_JSON=$(echo "$FILENAMES" | jq -R -s -c 'split("\n")[:-1]')
+
           echo "files=$FILES_JSON" >> $GITHUB_OUTPUT
 
   test:
@@ -70,6 +81,7 @@ jobs:
         run: |
           CONTENT=$(cat ./testdriver/generate/${{ matrix.markdown }}.md)
           echo "MARKDOWN_CONTENT<<EOF" >> $GITHUB_ENV
+          echo "0. /run testdriver/login.yml" >> $GITHUB_ENV
           echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
@@ -90,6 +102,7 @@ jobs:
         uses: testdriverai/action@main
         continue-on-error: true
         with:
+          version: 4.2.12
           key: ${{ secrets.TESTDRIVER_API_KEY }}
           prompt: |
             ${{ env.MARKDOWN_CONTENT }}
@@ -103,7 +116,7 @@ jobs:
           create-pr: true
           branch: ${{ inputs.base-branch }}
           pr-base: ${{ inputs.base-branch }}
-          pr-title: "TestDriver.ai / Run Regression / ${{ matrix.markdown }}"
+          pr-title: "Generated Regression Test: ${{ matrix.markdown }} - Depth: ${{ inputs.depth }}/${{ inputs.max-depth }} [${{ inputs.primaryId }}]"
           pr-branch: ${{ steps.generate-pr-branch.outputs.pr-branch }}
           pr-test-filename: ${{steps.generate-filename.outputs.filename}}
         env:
