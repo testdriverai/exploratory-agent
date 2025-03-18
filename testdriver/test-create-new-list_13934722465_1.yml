@@ -1,0 +1,39 @@
+version: 4.2.12
+session: 67d9f67b5cdecc8cfacd1b10
+steps:
+  - prompt: Click the "+ New List" button.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click the "+ New List" button.
+    commands:
+      - command: hover-text
+        text: OK
+        description: confirmation button in the password change dialog
+        action: click
+      - command: hover-text
+        text: + New List
+        description: button to create a new list
+        action: click
+  - prompt: Enter a name for the new list in the input field.
+    commands:
+      - command: hover-text
+        text: List name
+        description: input field for new list name
+        action: click
+      - command: type
+        text: My New List
