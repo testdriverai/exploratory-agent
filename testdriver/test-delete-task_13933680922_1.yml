@@ -1,0 +1,46 @@
+version: 4.2.12
+session: 67d9e5fe1afc039981b83409
+steps:
+  - prompt: Add a new task.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Add a new task.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: new task input field
+        action: click
+      - command: type
+        text: Buy groceries
+      - command: hover-text
+        text: Add
+        description: add button next to the new task input
+        action: click
+  - prompt: Click the delete icon next to the task.
+    commands:
+      - command: hover-image
+        description: trash icon next to the task "Buy groceries"
+        action: click
+      - command: hover-text
+        text: Never
+        description: never button in the password save prompt
+        action: click
+  - prompt: Assert that the task is removed from "My Tasks".
+    commands:
+      - command: assert
+        expect: no tasks are listed under "My Tasks"
