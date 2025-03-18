@@ -97,7 +97,7 @@ jobs:
         uses: actions/github-script@v6
         env:
           RESULTS: ${{ needs.generate-regression.outputs.results }}
-          TOKEN: ${{ secrets.GH_PAT_TOKEN }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
