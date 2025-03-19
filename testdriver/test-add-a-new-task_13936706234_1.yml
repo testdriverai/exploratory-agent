@@ -1,0 +1,47 @@
+version: 4.2.12
+session: 67da1d461afc039981b837a1
+steps:
+  - prompt: Login with username alexbar and password foobarr
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexbar
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: foobarr
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Focus the "Add a new task" input field.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: input field for adding a new task
+        action: click
+  - prompt: Enter a task description.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: input field for adding a new task
+        action: click
+      - command: type
+        text: Complete the project documentation
+  - prompt: Click the "Add" button.
+    commands:
+      - command: hover-text
+        text: Add
+        description: button to add a new task
+        action: click
+  - prompt: Assert that the new task appears in the task list.
+    commands:
+      - command: assert
+        expect: >-
+          the task "Complete the project documentation" is visible in the task
+          list
