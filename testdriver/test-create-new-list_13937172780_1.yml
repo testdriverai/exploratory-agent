@@ -1,0 +1,49 @@
+version: 4.2.12
+session: 67da26a266ff658bbf937651
+steps:
+  - prompt: Login with username alexarsst and password foobars
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field in the login form
+        action: click
+      - command: type
+        text: alexarsst
+      - command: hover-text
+        text: Enter your password
+        description: password input field in the login form
+        action: click
+      - command: type
+        text: foobars
+      - command: hover-text
+        text: Login
+        description: login button in the login form
+        action: click
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Click the "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: button to create a new list in the Todo App
+        action: click
+  - prompt: Enter a name for the new list.
+    commands:
+      - command: hover-text
+        text: List name
+        description: input field for the new list name
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Confirm creation of the new list.
+    commands:
+      - command: hover-text
+        text: Create
+        description: button to confirm the creation of the new list
+        action: click
+  - prompt: Assert that the new list is displayed in the Todo Lists section.
+    commands:
+      - command: assert
+        expect: the text "My New List" is visible in the Todo Lists section
