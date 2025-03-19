@@ -102,7 +102,7 @@ jobs:
             exit
           create-pr: true
           branch: ${{ inputs.base-branch }}
-          pr-base: ${{ inputs.base-branch }}
+          pr-base: main
           pr-title: "TestDriver.ai / Run Regression / ${{ matrix.markdown }}"
           pr-branch: ${{ steps.generate-pr-branch.outputs.pr-branch }}
           pr-test-filename: ${{steps.generate-filename.outputs.filename}}
