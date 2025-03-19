@@ -77,7 +77,7 @@ jobs:
         run: |
           CONTENT=$(cat ./testdriver/generate/${{ matrix.markdown }}.md)
           echo "MARKDOWN_CONTENT<<EOF" >> $GITHUB_ENV
-          echo "/run testdriver/login.yml"
+          echo "/run testdriver/login.yml" >> $GITHUB_ENV
           echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
