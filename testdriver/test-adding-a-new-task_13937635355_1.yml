@@ -1,0 +1,45 @@
+version: 4.2.12
+session: 67da305266ff658bbf93777a
+steps:
+  - prompt: Login with username alexrr and password df45123
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexrr
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: df45123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on the "Add new task" input field.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: add new task input field
+        action: click
+  - prompt: Type "Test Task".
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: add new task input field
+        action: click
+      - command: type
+        text: Test Task
+  - prompt: Click the "Add" button.
+    commands:
+      - command: hover-text
+        text: Add
+        description: add button next to the task input field
+        action: click
+  - prompt: Assert that "Test Task" appears in the task list.
+    commands:
+      - command: assert
+        expect: Test Task appears in the task list
