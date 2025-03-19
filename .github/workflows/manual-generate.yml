@@ -3,9 +3,9 @@ name: Main Workflow Dispatch
 on:
   workflow_dispatch:
     inputs:
-      depth:
+      breadth:
         type: number
-        default: 1
+        default: 2
       max-depth:
         type: number
         default: 1
@@ -22,7 +22,7 @@ jobs:
     uses: ./.github/workflows/generate.yml
     with:
       dispatchId: manual-${{ github.run_id }}
-      depth: ${{ fromJson(inputs.depth) }}
+      breadth: ${{ fromJson(inputs.breadth) }}
       max-depth: ${{ fromJson(inputs.max-depth) }}
       website-url: ${{ inputs.website-url }}
       login_username: ${{ inputs.username }}

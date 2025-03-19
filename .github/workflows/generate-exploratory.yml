@@ -15,6 +15,9 @@ on:
       depth:
         type: number
         required: true
+      breadth:
+        type: number
+        required: true
       max-depth:
         type: number
         required: true
@@ -55,19 +58,21 @@ jobs:
         id: create-prompt
         env:
           DEPTH: ${{ inputs.depth }}
+          BREADTH: ${{ inputs.breadth }}
           PREVIOUS_FILE: ${{ inputs.previous-file }}
           LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
           LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
         with:
           script: |
             const depth = parseInt(process.env.DEPTH)
+            const breadth = parseInt(process.env.BREADTH)
             const username = process.env.LOGIN_USERNAME
             const password = process.env.LOGIN_PASSWORD
             let loginFile = depth === 1 && username && password ? 'login.yml' : ''
             let previousFile = loginFile || process.env.PREVIOUS_FILE
 
             let instructions = [
-              `/generate web 2${previousFile ? ` testdriver/${previousFile} --skip-yaml` : ''}`,
+              `/generate web ${breadth}${previousFile ? ` testdriver/${previousFile} --skip-yaml` : ''}`,
               "/summarize"
             ]
               

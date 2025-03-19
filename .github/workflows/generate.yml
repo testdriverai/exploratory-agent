@@ -14,6 +14,9 @@ on:
       depth:
         type: number
         default: 1
+      breadth:
+        type: number
+        default: 2
       max-depth:
         type: number
         default: 1
@@ -37,6 +40,9 @@ on:
       depth:
         type: number
         default: 1
+      breadth:
+        type: number
+        default: 2
       max-depth:
         type: number
         default: 1
