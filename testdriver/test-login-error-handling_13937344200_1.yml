@@ -1,0 +1,25 @@
+version: 4.2.12
+session: 67da2a0d1b8e3a3c383bc635
+steps:
+  - prompt: Login with username alexarsst and password foobars
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexarsst
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: foobars
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
