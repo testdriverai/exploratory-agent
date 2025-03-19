@@ -153,7 +153,7 @@ jobs:
                     "depth": "" + (${{ inputs.depth }} + 1),
                     "max-depth": "" + ${{ inputs.max-depth }},
                     "previous-file": item.filename,
-                    "website-url": ${{ inputs.website-url }},
+                    "website-url": "${{ inputs.website-url }}",
                   }
                 })
               });
