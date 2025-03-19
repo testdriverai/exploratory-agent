@@ -23,6 +23,12 @@ on:
       previous-file:
         type: string
         description: Previous test yaml file to use as a base
+      login_username:
+        type: string
+        description: Username
+      login_password:
+        type: string
+        description: Username
 
   workflow_call:
     inputs:
