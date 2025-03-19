@@ -67,7 +67,7 @@ jobs:
             let previousFile = loginFile || process.env.PREVIOUS_FILE
 
             let instructions = [
-              `/generate web 3${previousFile ? ` testdriver/${previousFile} --skip-yaml` : ''}`,
+              `/generate web 2${previousFile ? ` testdriver/${previousFile} --skip-yaml` : ''}`,
               "/summarize"
             ]
               

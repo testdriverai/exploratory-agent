@@ -154,6 +154,8 @@ jobs:
                     "max-depth": "" + ${{ inputs.max-depth }},
                     "previous-file": item.filename,
                     "website-url": "${{ inputs.website-url }}",
+                    "login_username": "${{ inputs.login_username }}",
+                    "login_password": "${{ inputs.login_password }}"
                   }
                 })
               });
