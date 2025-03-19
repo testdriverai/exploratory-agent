@@ -68,7 +68,7 @@ jobs:
         run: echo "💁 The dispatch ID is ${{ github.event.inputs.dispatchId }}"
 
       - name: Mask secret
-        run: echo "::add-mask::${{ github.event.inputs.login_password }}"
+        run: echo "::add-mask::${{ inputs.login_password }}"
 
 
   generate-exploratory:
