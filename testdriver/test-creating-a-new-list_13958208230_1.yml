@@ -1,0 +1,57 @@
+version: 4.2.12
+session: 67db4cf149b2b9496629a30d
+steps:
+  - prompt: Click the "New List" button.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click the "New List" button.
+    commands:
+      - command: hover-text
+        text: OK
+        description: confirmation button on the password change notification
+        action: click
+      - command: scroll-until-text
+        text: New List
+        direction: down
+        method: keyboard
+      - command: hover-text
+        text: New List
+        description: button to create a new list
+        action: click
+  - prompt: Enter a name for the list.
+    commands:
+      - command: hover-text
+        text: List name
+        description: input field for the new list name
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Click the "Create" button.
+    commands:
+      - command: hover-text
+        text: Create
+        description: button to create the new list
+        action: click
+  - prompt: Assert that the new list appears in the interface.
+    commands:
+      - command: assert
+        expect: the text "My New List" is visible in the interface
+  - prompt: Assert there are no errors displayed.
+    commands:
+      - command: assert
+        expect: there are no error messages visible in the interface
