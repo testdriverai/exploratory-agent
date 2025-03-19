@@ -1,0 +1,23 @@
+version: 4.2.12
+session: 67db521479861c0eef41aa17
+steps:
+  - prompt: login with username "alexfo" and password "fonohon"
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexfo
+  - prompt: login with username "alexfo" and password "fonohon"
+    commands:
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: fonohon
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
