@@ -1,0 +1,35 @@
+version: 4.2.12
+session: 67da20761afc039981b83816
+steps:
+  - prompt: Login with username  and password
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+  - prompt: Login with username  and password
+    commands:
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Enter a valid username and password in the login form.
+    commands: []
+  - prompt: Click the "Login" button.
+    commands: []
+  - prompt: Assert that the user is redirected to the homepage.
+    commands:
+      - command: assert
+        expect: the user is on the Todo App homepage
