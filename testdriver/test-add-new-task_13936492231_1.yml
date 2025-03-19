@@ -1,0 +1,43 @@
+version: 4.2.12
+session: 67da190f1afc039981b83751
+steps:
+  - prompt: Login with username alex and password booboo
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alex
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: booboo
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on the "Add a new task..." input field.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: input field for adding a new task
+        action: click
+  - prompt: Type a task name and click "Add."
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: input field for adding a new task
+        action: click
+      - command: type
+        text: Sample Task
+      - command: hover-text
+        text: Add
+        description: add button next to the task input field
+        action: click
+  - prompt: Assert that the task appears in the "My Tasks" section.
+    commands:
+      - command: assert
+        expect: Sample Task is listed in the My Tasks section
