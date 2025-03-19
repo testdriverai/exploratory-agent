@@ -75,7 +75,7 @@ jobs:
         run: |
           CONTENT=$(cat ./testdriver/generate/${{ matrix.markdown }}.md)
           echo "MARKDOWN_CONTENT<<EOF" >> $GITHUB_ENV
-          echo "0. Login with username ${{ inputs.LOGIN_USERNAME }} and password ${{ secrests.LOGIN_PASSWORD }}"
+          echo "0. Login with username ${{ secrets.LOGIN_USERNAME }} and password ${{ secrets.LOGIN_PASSWORD }}" >> $GITHUB_ENV
           echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
