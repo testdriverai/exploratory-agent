@@ -1,0 +1,47 @@
+version: 4.2.12
+session: 67da1d425cdecc8cfacd1e57
+steps:
+  - prompt: Login with username alexbar and password foobarr
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexbar
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: foobarr
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Select a priority from the "All Priorities" dropdown.
+    commands:
+      - command: hover-text
+        text: All Priorities
+        description: priority dropdown
+        action: click
+      - command: hover-text
+        text: High
+        description: high priority option
+        action: click
+  - prompt: >-
+      Assert that the task list updates to show tasks with the selected
+      priority.
+    commands:
+      - command: assert
+        expect: no tasks are displayed under the High priority filter
+  - prompt: Clear the filter.
+    commands:
+      - command: hover-text
+        text: Clear
+        description: clear filter option
+        action: click
+  - prompt: Assert that the task list shows all tasks again.
+    commands:
+      - command: assert
+        expect: no tasks are displayed under the All Priorities filter
