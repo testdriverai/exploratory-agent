@@ -1,0 +1,57 @@
+version: 4.2.12
+session: 67da2a0a1b8e3a3c383bc631
+steps:
+  - prompt: Login with username alexarsst and password foobars
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexarsst
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: foobars
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Fill in the "Username" field with test data.
+    commands:
+      - command: hover-text
+        text: Username
+        description: username input field in the save password prompt
+        action: click
+      - command: type
+        text: testdata
+  - prompt: Fill in the "Username" field with test data.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: username input field in the todo app
+        action: click
+      - command: type
+        text: alexarsst
+  - prompt: Fill in the "Password" field with test data.
+    commands:
+      - command: hover-text
+        text: Password
+        description: password input field in the save password prompt
+        action: click
+      - command: type
+        text: testdata
+  - prompt: Fill in the "Password" field with test data.
+    commands:
+      - command: hover-text
+        text: Password
+        description: password input field on the webpage
+        action: click
+      - command: type
+        text: foobars
