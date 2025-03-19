@@ -1,0 +1,21 @@
+version: 4.2.12
+session: 67da1ba15cdecc8cfacd1e4a
+steps:
+  - prompt: login with username "alexbar" and password "foobarr"
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexbar
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: foobarr
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
