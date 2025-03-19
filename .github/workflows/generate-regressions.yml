@@ -50,6 +50,10 @@ jobs:
       - name: Find all markdown files and extract filenames
         id: markdown_list
         run: |
+          git log
+          git status
+          git show 
+
           # Get list of .md files changed in the last commit
           FILES=$(git show --name-only --format= | grep "^testdriver/generate/.*\.md$" || true)
           FILENAMES=$(echo "$FILES" | while IFS= read -r file; do basename "$file" .md; done)
