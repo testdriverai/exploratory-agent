@@ -1,0 +1,43 @@
+version: 4.2.12
+session: 67da20791afc039981b8381d
+steps:
+  - prompt: Login with username  and password
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+  - prompt: Login with username  and password
+    commands:
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+      - command: hover-text
+        text: OK
+        description: confirmation button on password change alert
+        action: click
+      - command: hover-text
+        text: Never
+        description: never save password button
+        action: click
+      - command: hover-text
+        text: Add a new task
+        description: new task input field
+        action: click
+  - prompt: Enter a task description.
+    commands:
+      - command: hover-text
+        text: Add a new task
+        description: new task input field
+        action: click
+      - command: type
+        text: Complete the project documentation
