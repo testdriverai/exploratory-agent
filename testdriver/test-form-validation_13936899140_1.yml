@@ -1,0 +1,29 @@
+version: 4.2.12
+session: 67da206e1afc039981b8380d
+steps:
+  - prompt: Login with username  and password
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: your_username
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: your_password
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+      - command: hover-text
+        text: OK
+        description: confirmation button on the password change alert
+        action: click
