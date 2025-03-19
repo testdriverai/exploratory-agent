@@ -1,0 +1,45 @@
+version: 4.2.12
+session: 67da19065cdecc8cfacd1dfa
+steps:
+  - prompt: Login with username alex and password booboo
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alex
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: booboo
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on the "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: button to create a new list
+        action: click
+  - prompt: Enter a list name in the provided input field.
+    commands:
+      - command: hover-text
+        text: List name
+        description: list name input field
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Confirm the creation of the new list.
+    commands:
+      - command: hover-text
+        text: Create
+        description: button to confirm the creation of the new list
+        action: click
+  - prompt: Assert that the new list is displayed under "Todo Lists."
+    commands:
+      - command: assert
+        expect: My New List is displayed under Todo Lists
