@@ -1,0 +1,45 @@
+version: 4.2.12
+session: 67da30351b8e3a3c383bc709
+steps:
+  - prompt: Login with username alexrr and password df45123
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexrr
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: df45123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on the "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: button to create a new list
+        action: click
+  - prompt: Enter "Test List" as the list name.
+    commands:
+      - command: hover-text
+        text: List name
+        description: list name input field
+        action: click
+      - command: type
+        text: Test List
+  - prompt: Click "Create".
+    commands:
+      - command: hover-text
+        text: Create
+        description: button to create the new list
+        action: click
+  - prompt: Assert that "Test List" is visible in the lists section.
+    commands:
+      - command: assert
+        expect: Test List is visible in the lists section
