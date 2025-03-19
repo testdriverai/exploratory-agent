@@ -1,0 +1,51 @@
+version: 4.2.12
+session: 67db53ae559da55d39a319a0
+steps:
+  - prompt: login with username "alexfo" and password "fonohon"
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexfo
+  - prompt: login with username "alexfo" and password "fonohon"
+    commands:
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: fonohon
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click the "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: button to create a new list in the Todo App
+        action: click
+  - prompt: Enter a name for the new list.
+    commands:
+      - command: hover-text
+        text: List name
+        description: input field for the new list name
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Confirm the creation of the new list.
+    commands:
+      - command: hover-text
+        text: Create
+        description: button to confirm the creation of the new list
+        action: click
+  - prompt: Assert that the new list appears in the "Todo Lists" section.
+    commands:
+      - command: assert
+        expect: My New List is visible in the Todo Lists section
+  - prompt: Assert there are no errors shown.
+    commands:
+      - command: assert
+        expect: No error messages are visible on the screen
