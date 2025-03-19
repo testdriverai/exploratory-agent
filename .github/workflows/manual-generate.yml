@@ -25,9 +25,9 @@ jobs:
       depth: ${{ fromJson(inputs.depth) }}
       max-depth: ${{ fromJson(inputs.max-depth) }}
       website-url: ${{ inputs.website-url }}
+      login_username: ${{ inputs.username }}
+      login_password: ${{ inputs.password }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      LOGIN_USERNAME: ${{ inputs.username }}
-      LOGIN_PASSWORD: ${{ inputs.password }}
 

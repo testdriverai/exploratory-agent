@@ -40,15 +40,17 @@ on:
       previous-file:
         type: string
         description: Previous test yaml file to use as a base
+      login_username:
+        type: string
+        description: Username
+      login_password:
+        type: string
+        description: Username
     secrets:
       TESTDRIVER_API_KEY:
         required: true
       GH_TOKEN:
         required: true
-      LOGIN_USERNAME:
-        required: false
-      LOGIN_PASSWORD:
-        required: false
 
 jobs:
   match-dispatchId:
@@ -58,6 +60,10 @@ jobs:
       - id: dispatch-id
         name: dispatchId:${{ inputs.dispatchId }}
         run: echo "💁 The dispatch ID is ${{ github.event.inputs.dispatchId }}"
+
+      - name: Mask secret
+        run: echo "::add-mask::${{ github.event.inputs.login_password }}"
+
 
   generate-exploratory:
     needs: match-dispatchId
@@ -71,8 +77,8 @@ jobs:
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
-      LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+      LOGIN_USERNAME: ${{ inputs.login_username }}
+      LOGIN_PASSWORD: ${{ inputs.login_password }}
 
   generate-regression:
     needs: generate-exploratory
@@ -139,6 +145,7 @@ jobs:
                     "depth": "" + (${{ inputs.depth }} + 1),
                     "max-depth": "" + ${{ inputs.max-depth }},
                     "previous-file": item.filename,
+                    "website-url": ${{ inputs.website-url }},
                   }
                 })
               });
