@@ -1,0 +1,49 @@
+version: 4.2.12
+session: 67da345766ff658bbf9377cb
+steps:
+  - prompt: Login with username alex and password foobarsss
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alex
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: foobarsss
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on the "Add a new task..." input field.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: input field for adding a new task
+        action: click
+  - prompt: Enter a task name.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: input field for adding a new task
+        action: click
+      - command: type
+        text: New Task Name
+  - prompt: Click the "Add" button.
+    commands:
+      - command: hover-text
+        text: Add
+        description: button to add a new task
+        action: click
+  - prompt: Assert that the new task appears in the list.
+    commands:
+      - command: assert
+        expect: New Task Name is visible in the task list
+  - prompt: Assert that no errors are displayed.
+    commands:
+      - command: assert
+        expect: no error messages are visible on the screen
