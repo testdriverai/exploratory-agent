@@ -97,6 +97,8 @@ jobs:
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      LOGIN_USERNAME: ${{ inputs.login_username }}
+      LOGIN_PASSWORD: ${{ inputs.login_password }}
 
   generate-next-depth:
     if: ${{inputs.depth != inputs.max-depth}}

@@ -26,6 +26,11 @@ on:
         required: true
       GH_TOKEN:
         required: true
+      LOGIN_USERNAME:
+        required: false
+      LOGIN_PASSWORD:
+        required: false
+
     outputs:
       results:
         value: ${{ jobs.get-results.outputs.results }}
@@ -70,6 +75,7 @@ jobs:
         run: |
           CONTENT=$(cat ./testdriver/generate/${{ matrix.markdown }}.md)
           echo "MARKDOWN_CONTENT<<EOF" >> $GITHUB_ENV
+          echo "0. Login with username ${{ inputs.LOGIN_USERNAME }} and password ${{ secrests.LOGIN_PASSWORD }}"
           echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
