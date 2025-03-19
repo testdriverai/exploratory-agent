@@ -1,0 +1,45 @@
+version: 4.2.12
+session: 67da1d405cdecc8cfacd1e55
+steps:
+  - prompt: Login with username alexbar and password foobarr
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexbar
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: foobarr
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: button to create a new list
+        action: click
+  - prompt: Enter a name for the new list.
+    commands:
+      - command: hover-text
+        text: List name
+        description: input field for new list name
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Save the new list.
+    commands:
+      - command: hover-text
+        text: Create
+        description: button to save the new list
+        action: click
+  - prompt: Assert that the new list is visible in the interface.
+    commands:
+      - command: assert
+        expect: My New List is visible in the Todo Lists section
