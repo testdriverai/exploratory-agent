@@ -82,6 +82,7 @@ jobs:
     uses: ./.github/workflows/generate-exploratory.yml
     with:
       depth: ${{ fromJson(inputs.depth) }}
+      breadth: ${{ fromJson(inputs.breadth) }}
       max-depth: ${{ fromJson(inputs.max-depth) }}
       website-url: ${{ inputs.website-url }}
       base-branch: ${{ github.ref_name }}
