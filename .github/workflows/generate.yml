@@ -134,11 +134,6 @@ jobs:
                 .then(()=>true)
                 .catch(()=>false)
 
-              console.log(context.repo.owner);
-              console.log(context.repo.repo);
-              console.log(item.branch);
-
-
               if(!branchExists) {
                 console.log(`Branch ${item.branch} does not exist, skipping workflow dispatch`);
                 continue              
