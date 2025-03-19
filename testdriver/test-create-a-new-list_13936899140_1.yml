@@ -1,0 +1,49 @@
+version: 4.2.12
+session: 67da206f5cdecc8cfacd1ea8
+steps:
+  - prompt: Login with username  and password
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: your_username
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: your_password
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+      - command: hover-text
+        text: OK
+        description: OK button on password change alert
+        action: click
+  - prompt: Click on "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: new list button
+        action: click
+  - prompt: Enter a name for the new list.
+    commands:
+      - command: hover-text
+        text: List name
+        description: list name input field
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Save the new list.
+    commands:
+      - command: hover-text
+        text: Create
+        description: create button in the create new list dialog
+        action: click
+  - prompt: Assert that the new list is visible in the interface.
+    commands:
+      - command: assert
+        expect: My New List is visible in the Todo Lists interface
