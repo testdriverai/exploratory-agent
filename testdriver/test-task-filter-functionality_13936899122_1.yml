@@ -1,0 +1,23 @@
+version: 4.2.12
+session: 67da20795cdecc8cfacd1eaf
+steps:
+  - prompt: Login with username  and password
+    commands:
+      - command: hover-text
+        text: Username
+        description: username input field
+        action: click
+  - prompt: Login with username  and password
+    commands:
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Password
+        description: password input field
+        action: click
+      - command: type
+        text: testpassword
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
