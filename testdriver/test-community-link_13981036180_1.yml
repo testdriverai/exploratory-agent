@@ -1,0 +1,15 @@
+version: 4.2.12
+session: 67dca2b6be2c5cc56e5e0804
+steps:
+  - prompt: Open the Wave Terminal application.
+    commands: []
+  - prompt: Click the "Join our Community" link.
+    commands:
+      - command: hover-text
+        text: Join the Wave Discord Channel
+        description: link to join the community on the welcome screen
+        action: click
+  - prompt: Assert that the browser opens and navigates to the Wave Discord Channel.
+    commands:
+      - command: assert
+        expect: the browser is displaying the Wave Terminal Discord invitation page
