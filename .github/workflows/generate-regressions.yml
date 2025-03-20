@@ -110,7 +110,7 @@ jobs:
           prompt: |
             ${{ env.MARKDOWN_CONTENT }}
             1. /summarize
-          prerun: $${{ inputs.prerun }}
+          prerun: ${{ inputs.prerun }}
           create-pr: true
           branch: ${{ inputs.base-branch }}
           pr-base: ${{ inputs.base-branch }}
