@@ -117,7 +117,7 @@ jobs:
       depth: ${{ fromJson(inputs.depth) }}
       max-depth: ${{ fromJson(inputs.max-depth) }}
       base-branch: ${{ needs.generate-exploratory.outputs.pr-branch }}
-      prerun: $${{ inputs.prerun }}
+      prerun: ${{ inputs.prerun }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
