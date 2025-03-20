@@ -1,0 +1,13 @@
+version: 4.2.12
+session: 67dca6b0be2c5cc56e5e0867
+steps:
+  - prompt: Click "Continue" on the Welcome screen.
+    commands:
+      - command: hover-text
+        text: Continue
+        description: continue button on the welcome screen
+        action: click
+  - prompt: Assert that the main application interface is displayed.
+    commands:
+      - command: assert
+        expect: the main application interface is displayed
