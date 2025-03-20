@@ -1,0 +1,35 @@
+version: 4.2.12
+session: 67db5f5f79861c0eef41ab6c
+steps:
+  - prompt: login with username "alexstien" and password "drastrst"
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexstien
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: drastrst
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on the "New List" button to create a new todo list.
+    commands:
+      - command: hover-text
+        text: New List
+        description: button to create a new todo list
+        action: click
+  - prompt: Enter a name for the new list.
+    commands:
+      - command: hover-text
+        text: List name
+        description: input field for new list name
+        action: click
+      - command: type
+        text: My New Todo List
