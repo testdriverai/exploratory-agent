@@ -1,0 +1,23 @@
+version: 4.2.12
+session: 67dca2b3be2c5cc56e5e0802
+steps:
+  - prompt: Open the Wave Terminal application.
+    commands:
+      - command: hover-text
+        text: Continue
+        description: continue button on the Wave Terminal welcome screen
+        action: click
+  - prompt: Assert the "Welcome to Wave Terminal" message is displayed.
+    commands:
+      - command: assert
+        expect: Welcome to Wave Terminal message is displayed
+  - prompt: Click the "Continue" button.
+    commands:
+      - command: hover-text
+        text: Get Started
+        description: get started button on the Icons and Keybindings window
+        action: click
+  - prompt: Assert that the welcome dialog closes and main interface is displayed.
+    commands:
+      - command: assert
+        expect: main interface of Wave Terminal is displayed
