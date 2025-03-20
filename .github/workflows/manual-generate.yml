@@ -35,7 +35,7 @@ jobs:
             echo "prerun<<EOF"
             if [ -n "${{ inputs.app-url }}" ]; then
               echo "Invoke-WebRequest ${{ inputs.app-url }} -OutFile app.exe"
-              Start-Process ./app.exe"
+              Start-Process ./app.exe
               exit
             elif [ -n "${{ inputs.website-url }}" ]; then
               cat << 'SCRIPT'
@@ -44,7 +44,7 @@ jobs:
                 npm install dashcam-chrome
                 Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized","--load-extension=$(pwd)/node_modules/dashcam-chrome/build","${{ inputs.website-url }}"
                 exit
-              SCRIPT
+          SCRIPT
             fi
             echo "${{ inputs.prerun }}"
             echo "EOF"
