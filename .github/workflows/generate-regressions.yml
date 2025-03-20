@@ -24,6 +24,8 @@ on:
       base-branch:
         type: string
         required: true
+      prerun:
+        type: string
     secrets:
       TESTDRIVER_API_KEY:
         required: true
@@ -110,6 +112,7 @@ jobs:
           prompt: |
             ${{ env.MARKDOWN_CONTENT }}
             1. /summarize
+          prerun: $${{ inputs.prerun }}
           create-pr: true
           branch: ${{ inputs.base-branch }}
           pr-base: ${{ inputs.base-branch }}
