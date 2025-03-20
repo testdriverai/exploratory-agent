@@ -1,0 +1,13 @@
+version: 4.2.12
+session: 67dca6a1fa8f04aa4cd8606b
+steps:
+  - prompt: Focus the Wave Terminal application.
+    commands:
+      - command: focus-application
+        name: Wave
+  - prompt: Click the "Continue" button.
+    commands:
+      - command: hover-text
+        text: Continue
+        description: continue button in the Wave Terminal welcome dialog
+        action: click
