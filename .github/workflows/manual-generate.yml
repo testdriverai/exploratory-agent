@@ -12,6 +12,9 @@ on:
       website-url:
         type: string
         default: "https://kzmkgze3v46fyc6paipj.lite.vusercontent.net/login"
+      app-url:
+        type: string
+        default: "https://github.com/wavetermdev/waveterm/releases/download/v0.11.2/Wave-win32-x64-0.11.2.exe"
       prerun:
         type: string
       username:
@@ -30,17 +33,20 @@ jobs:
         run: |
           {
             echo "prerun<<EOF"
-            if [ -n "${{ inputs.prerun }}" ]; then
-              echo "${{ inputs.prerun }}"
+            if [ -n "${{ inputs.app-url }}" ]; then
+              echo "Invoke-WebRequest ${{ inputs.app-url }} -OutFile app.exe"
+              Start-Process ./app.exe"
+              exit
             elif [ -n "${{ inputs.website-url }}" ]; then
               cat << 'SCRIPT'
-          cd $env:TEMP
-          npm init -y
-          npm install dashcam-chrome
-          Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized","--load-extension=$(pwd)/node_modules/dashcam-chrome/build","${{ inputs.website-url }}"
-          exit
-          SCRIPT
+                cd $env:TEMP
+                npm init -y
+                npm install dashcam-chrome
+                Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized","--load-extension=$(pwd)/node_modules/dashcam-chrome/build","${{ inputs.website-url }}"
+                exit
+              SCRIPT
             fi
+            echo "${{ inputs.prerun }}"
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
