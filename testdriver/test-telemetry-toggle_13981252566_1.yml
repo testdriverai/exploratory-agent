@@ -1,0 +1,23 @@
+version: 4.2.12
+session: 67dca6b2fa8f04aa4cd86075
+steps:
+  - prompt: Toggle the "Telemetry Enabled" switch off.
+    commands:
+      - command: hover-text
+        text: Telemetry Enabled
+        description: telemetry switch in the welcome window
+        action: click
+  - prompt: Assert that the switch changes state to disabled.
+    commands:
+      - command: assert
+        expect: the telemetry switch is disabled
+  - prompt: Toggle the "Telemetry Enabled" switch on.
+    commands:
+      - command: hover-text
+        text: Telemetry Disabled
+        description: telemetry switch in the welcome window
+        action: click
+  - prompt: Assert that the switch changes state to enabled.
+    commands:
+      - command: assert
+        expect: the telemetry switch is enabled
