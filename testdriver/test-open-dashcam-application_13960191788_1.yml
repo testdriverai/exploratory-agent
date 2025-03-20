@@ -1,0 +1,13 @@
+version: 4.2.12
+session: 67db74f479861c0eef41ade7
+steps:
+  - prompt: Open the Dashcam application from the desktop.
+    commands:
+      - command: hover-text
+        text: Dashcam
+        description: Dashcam application icon on the desktop
+        action: double-click
+  - prompt: Assert that the application launches successfully.
+    commands:
+      - command: assert
+        expect: the Dashcam application is open
