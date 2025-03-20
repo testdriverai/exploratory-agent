@@ -13,7 +13,7 @@ on:
         type: string
         required: true
         description: Primary Run ID to carry through layers
-      website-url:
+      prerun:
         type: string
         required: true
       depth:
@@ -97,12 +97,7 @@ jobs:
           version: 4.2.12
           key: ${{ secrets.TESTDRIVER_API_KEY }}
           prompt: ${{ fromJson(steps.create-prompt.outputs.result) }}
-          prerun: |
-            cd $env:TEMP
-            npm init -y
-            npm install dashcam-chrome
-            Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized","--load-extension=$(pwd)/node_modules/dashcam-chrome/build","${{ inputs.website-url }}"
-            exit
+          prerun: ${{ inputs.prerun }}
           create-pr: true
           pr-base: ${{ inputs.base-branch }}
           pr-title: 'Explore - Depth ${{ inputs.depth }}/${{ inputs.max-depth }} [${{ inputs.primaryId }}]'

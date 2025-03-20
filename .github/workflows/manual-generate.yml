@@ -12,14 +12,41 @@ on:
       website-url:
         type: string
         default: "https://kzmkgze3v46fyc6paipj.lite.vusercontent.net/login"
+      prerun:
+        type: string
       username:
         type: string
       password:
         type: string
 
 jobs:
+  generate-prerun:
+    runs-on: ubuntu-latest
+    outputs:
+      prerun: ${{ steps.set_prerun.outputs.prerun }}
+    steps:
+      - name: Set PRERUN variable
+        id: set_prerun
+        run: |
+          {
+            echo "prerun<<EOF"
+            if [ -n "${{ inputs.prerun }}" ]; then
+              echo "${{ inputs.prerun }}"
+            elif [ -n "${{ inputs.website-url }}" ]; then
+              cat << 'SCRIPT'
+          cd $env:TEMP
+          npm init -y
+          npm install dashcam-chrome
+          Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized","--load-extension=$(pwd)/node_modules/dashcam-chrome/build","${{ inputs.website-url }}"
+          exit
+          SCRIPT
+            fi
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
+
   generate:
     uses: ./.github/workflows/generate.yml
+    needs: [generate-prerun]
     with:
       dispatchId: manual-${{ github.run_id }}
       primaryId: ${{ github.run_id }}
@@ -28,6 +55,7 @@ jobs:
       website-url: ${{ inputs.website-url }}
       login_username: ${{ inputs.username }}
       login_password: ${{ inputs.password }}
+      prerun: ${{ needs.generate-prerun.outputs.prerun }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

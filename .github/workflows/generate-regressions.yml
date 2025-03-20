@@ -13,9 +13,8 @@ on:
         type: string
         required: true
         description: Primary Run ID to carry through layers
-      website-url:
+      prerun:
         type: string
-        required: true
       depth:
         type: number
         required: true
@@ -81,7 +80,11 @@ jobs:
         run: |
           CONTENT=$(cat ./testdriver/generate/${{ matrix.markdown }}.md)
           echo "MARKDOWN_CONTENT<<EOF" >> $GITHUB_ENV
-          echo "0. /run testdriver/login.yml" >> $GITHUB_ENV
+
+          if [ -f "./testdriver/login.yml" ]; then
+            echo "0. /run testdriver/login.yml" >> $GITHUB_ENV
+          fi
+
           echo "$CONTENT" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
@@ -107,12 +110,6 @@ jobs:
           prompt: |
             ${{ env.MARKDOWN_CONTENT }}
             1. /summarize
-          prerun: |
-            cd $env:TEMP
-            npm init -y
-            npm install dashcam-chrome
-            Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized","--load-extension=$(pwd)/node_modules/dashcam-chrome/build","${{ inputs.website-url }}"
-            exit
           create-pr: true
           branch: ${{ inputs.base-branch }}
           pr-base: ${{ inputs.base-branch }}
