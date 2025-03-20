@@ -14,7 +14,6 @@ on:
         default: "https://kzmkgze3v46fyc6paipj.lite.vusercontent.net/login"
       app-url:
         type: string
-        default: "https://github.com/wavetermdev/waveterm/releases/download/v0.11.2/Wave-win32-x64-0.11.2.exe"
       prerun:
         type: string
       username:
