@@ -52,7 +52,6 @@ jobs:
       primaryId: ${{ github.run_id }}
       breadth: ${{ fromJson(inputs.breadth) }}
       max-depth: ${{ fromJson(inputs.max-depth) }}
-      website-url: ${{ inputs.website-url }}
       login_username: ${{ inputs.username }}
       login_password: ${{ inputs.password }}
       prerun: ${{ needs.generate-prerun.outputs.prerun }}
