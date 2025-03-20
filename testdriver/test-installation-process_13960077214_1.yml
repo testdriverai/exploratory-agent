@@ -1,0 +1,7 @@
+version: 4.2.12
+session: 67db72ad559da55d39a31cde
+steps:
+  - prompt: Wait for the installation to complete.
+    commands:
+      - command: wait
+        timeout: 30000
