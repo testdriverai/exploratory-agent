@@ -173,7 +173,7 @@ jobs:
                     "depth": "" + (${{ inputs.depth }} + 1),
                     "max-depth": "" + ${{ inputs.max-depth }},
                     "previous-file": item.filename,
-                    "prerun": "${{ inputs.prerun }}",
+                    "prerun": ${{ toJson(inputs.prerun) }},
                     "login_username": "${{ inputs.login_username }}",
                     "login_password": "${{ inputs.login_password }}",
                     "app-type": "${{ inputs.app-type }}"

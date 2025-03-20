@@ -91,7 +91,6 @@ jobs:
               ]
             }
             const prompt = instructions.map((instruction, i) => `${i + 1}. ${instruction}`).join("\n")
-            console.log(prompt)
             return prompt
 
       - uses: testdriverai/action@main
