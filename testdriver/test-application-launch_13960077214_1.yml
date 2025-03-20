@@ -1,0 +1,13 @@
+version: 4.2.12
+session: 67db72ad79861c0eef41ada7
+steps:
+  - prompt: Focus the desktop and locate the installed application icon.
+    commands:
+      - command: press-keys
+        keys:
+          - command
+          - d
+      - command: hover-text
+        text: Google Chrome
+        description: Google Chrome icon on the desktop
+        action: hover
