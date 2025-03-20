@@ -27,6 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       prerun: ${{ steps.set_prerun.outputs.prerun }}
+      app-type: ${{ steps.set_app_type.outputs.app_type }}
     steps:
       - name: Set PRERUN variable
         id: set_prerun
@@ -50,6 +51,15 @@ jobs:
             echo "EOF"
           } >> $GITHUB_OUTPUT
 
+      - name: Set app_type variable
+        id: set_app_type
+        run: |
+            if [ -n "${{ inputs.app-url }}" ]; then
+              echo "app_type=desktop" >> $GITHUB_OUTPUT
+            elif [ -n "${{ inputs.website-url }}" ]; then
+              echo "app_type=web" >> $GITHUB_OUTPUT
+            fi
+
   generate:
     uses: ./.github/workflows/generate.yml
     needs: [generate-prerun]
@@ -61,6 +71,7 @@ jobs:
       login_username: ${{ inputs.username }}
       login_password: ${{ inputs.password }}
       prerun: ${{ needs.generate-prerun.outputs.prerun }}
+      app-type: ${{ needs.generate-prerun.outputs.app-type }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
