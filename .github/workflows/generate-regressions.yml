@@ -24,8 +24,6 @@ on:
       base-branch:
         type: string
         required: true
-      prerun:
-        type: string
     secrets:
       TESTDRIVER_API_KEY:
         required: true
