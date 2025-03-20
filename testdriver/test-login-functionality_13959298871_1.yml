@@ -1,0 +1,42 @@
+version: 4.2.12
+session: 67db6256559da55d39a31c2a
+steps:
+  - prompt: login with username "alexstien" and password "drastrst"
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexstien
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: drastrst
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+      - command: hover-text
+        text: Username
+        description: username input field label
+        action: click
+      - command: type
+        text: validusername
+  - prompt: Enter a valid password in the "Password" field.
+    commands:
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: validpassword
+      - command: hover-image
+        description: login button icon
+        action: click
+  - prompt: Assert that the user is redirected to the dashboard or home page.
+    commands:
+      - command: assert
+        expect: the page displays "Todo Lists"
