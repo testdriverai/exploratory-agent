@@ -1,0 +1,23 @@
+version: 4.2.12
+session: 67dca6a3fa8f04aa4cd8606d
+steps:
+  - prompt: Focus the Wave Terminal application.
+    commands:
+      - command: focus-application
+        name: Wave
+  - prompt: Click on the "Join the Wave Discord Channel" link.
+    commands:
+      - command: hover-text
+        text: Join the Wave Discord Channel
+        description: link to join the Wave Discord community
+        action: click
+  - prompt: Assert that the default browser opens to the correct Discord URL.
+    commands:
+      - command: assert
+        expect: the URL is "discord.com/invite/XfXZ334gwU"
+  - prompt: Close the browser window.
+    commands:
+      - command: press-keys
+        keys:
+          - alt
+          - f4
