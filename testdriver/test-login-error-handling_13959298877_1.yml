@@ -1,0 +1,25 @@
+version: 4.2.12
+session: 67db625a79861c0eef41aced
+steps:
+  - prompt: login with username "alexstien" and password "drastrst"
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alexstien
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: drastrst
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
