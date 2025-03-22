@@ -86,7 +86,7 @@ jobs:
               instructions.push("/save prerun.yml");
             }
 
-            return JSON.stringify(instructions);
+            return instructions;
 
   generate:
     uses: ./.github/workflows/generate.yml
