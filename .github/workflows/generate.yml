@@ -30,19 +30,13 @@ on:
       previous-file:
         type: string
         description: Previous test yaml file to use as a base
-      login_username:
-        type: string
-        description: Username
-      login_password:
-        type: string
-        description: Username
       app-type:
         type: string
         description: Type of app, desktop or web
-
       setup-instructions:
         type: string
         description: "Extra Setup"
+        default: "[]"
 
   workflow_call:
     inputs:
@@ -67,15 +61,13 @@ on:
       previous-file:
         type: string
         description: Previous test yaml file to use as a base
-      login_username:
-        type: string
-        description: Username
-      login_password:
-        type: string
-        description: Username
       app-type:
         type: string
         description: Type of app, desktop or web
+      setup-instructions:
+        type: string
+        default: "[]"
+
     secrets:
       TESTDRIVER_API_KEY:
         required: true
@@ -92,37 +84,6 @@ jobs:
       - id: dispatch-id
         name: dispatchId:${{ inputs.dispatchId }}
         run: echo "💁 The dispatch ID is ${{ github.event.inputs.dispatchId }}"
-
-      - name: Mask secret
-        run: echo "::add-mask::${{ inputs.login_password }}"
-  
-      - uses: 'actions/github-script@v6'
-        id: setup
-        env:
-          LOGIN_USERNAME: ${{ inputs.login_username }}
-          LOGIN_PASSWORD: ${{ inputs.login_password }}
-          SETUP_INSTRUCTIONS: ${{ inputs.setup-instructions }}
-        with:
-          script: |
-            let instructions = [];
-            const username = process.env.LOGIN_USERNAME;
-            const password = process.env.LOGIN_PASSWORD;
-            const setup = process.env.SETUP_INSTRUCTIONS;
-
-            if (username && password) {
-              instructions.push(`login with username ${ username }} and password ${ login_password }`)
-            }
-
-            if (setup) {
-              instructions = [...instructions, ...setup.split(";")];
-            }
-
-            if (instructions.length) {
-              instructions.push("/save prerun.yml");
-            }
-
-            return JSON.stringify(instructions);
-
 
   generate-exploratory:
     needs: match-dispatchId
@@ -204,8 +165,6 @@ jobs:
                     "max-depth": "" + ${{ inputs.max-depth }},
                     "previous-file": item.filename,
                     "prerun": ${{ toJson(inputs.prerun) }},
-                    "login_username": "${{ inputs.login_username }}",
-                    "login_password": "${{ inputs.login_password }}",
                     "app-type": "${{ inputs.app-type }}"
                   }
                 })

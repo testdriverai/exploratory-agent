@@ -29,6 +29,7 @@ jobs:
     outputs:
       prerun: ${{ steps.set_prerun.outputs.prerun }}
       app-type: ${{ steps.set_app_type.outputs.app_type }}
+      setup: ${{ steps.setup.outputs.result }}
     steps:
       - name: Set PRERUN variable
         id: set_prerun
@@ -60,6 +61,33 @@ jobs:
               echo "app_type=web" >> $GITHUB_OUTPUT
             fi
 
+      - uses: 'actions/github-script@v6'
+        id: setup
+        env:
+          LOGIN_USERNAME: ${{ inputs.username }}
+          LOGIN_PASSWORD: ${{ inputs.password }}
+          SETUP_INSTRUCTIONS: ${{ inputs.setup }}
+        with:
+          script: |
+            let instructions = [];
+            const username = process.env.LOGIN_USERNAME;
+            const password = process.env.LOGIN_PASSWORD;
+            const setup = process.env.SETUP_INSTRUCTIONS;
+
+            if (username && password) {
+              instructions.push(`login with username ${ username }} and password ${ login_password }`)
+            }
+
+            if (setup) {
+              instructions = [...instructions, ...setup.split(";")];
+            }
+
+            if (instructions.length) {
+              instructions.push("/save prerun.yml");
+            }
+
+            return JSON.stringify(instructions);
+
   generate:
     uses: ./.github/workflows/generate.yml
     needs: [generate-prerun]
@@ -68,11 +96,9 @@ jobs:
       primaryId: ${{ github.run_id }}
       breadth: ${{ fromJson(inputs.breadth) }}
       max-depth: ${{ fromJson(inputs.max-depth) }}
-      login_username: ${{ inputs.username }}
-      login_password: ${{ inputs.password }}
       prerun: ${{ needs.generate-prerun.outputs.prerun }}
       app-type: ${{ needs.generate-prerun.outputs.app-type }}
-      setup: ${{ inputs.setup }}
+      setup: ${{ needs.generate-prerun.outputs.setup }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
