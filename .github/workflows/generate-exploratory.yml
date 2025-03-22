@@ -68,7 +68,7 @@ jobs:
           DEPTH: ${{ inputs.depth }}
           BREADTH: ${{ inputs.breadth }}
           PREVIOUS_FILE: ${{ inputs.previous-file }}
-          SETUP_INSTRUCTIONS: ${{ inputs.setup-instructions }}
+          SETUP_INSTRUCTIONS: ${{ toJson(inputs.setup-instructions) }}
         with:
           script: |
             const depth = parseInt(process.env.DEPTH)

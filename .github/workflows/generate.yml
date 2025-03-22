@@ -97,7 +97,7 @@ jobs:
       previous-file: ${{ inputs.previous-file }}
       prerun: ${{ inputs.prerun }}
       app-type: ${{ inputs.app-type }}
-      setup-instructions: $${{ needs.outputs.setup }}
+      setup-instructions: ${{ inputs.setup-instructions }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
