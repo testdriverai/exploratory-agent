@@ -1,0 +1,31 @@
+version: 4.2.12
+session: 67de0f977c0f7ac0c24934b6
+steps:
+  - prompt: Ensure the browser window is focused.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Enter a valid username and password.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: validUsername
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: validPassword
+  - prompt: Click the "Login" button.
+    commands:
+      - command: hover-text
+        text: Login
+        description: login button below the password field
+        action: click
+  - prompt: Assert that the user is redirected to the dashboard.
+    commands:
+      - command: assert
+        expect: the "Todo Lists" heading is visible on the page
