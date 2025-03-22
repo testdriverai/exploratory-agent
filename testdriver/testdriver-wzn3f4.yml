@@ -1,0 +1,27 @@
+version: 4.2.12
+session: 67de0a53e4967e1fec4492ac
+steps:
+  - prompt: login with username arst} and password fpfp343434
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: arst}
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: fpfp343434
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: refresh
+    commands:
+      - command: press-keys
+        keys:
+          - control
+          - r
