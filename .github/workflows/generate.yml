@@ -40,6 +40,10 @@ on:
         type: string
         description: Type of app, desktop or web
 
+      setup-instructions:
+        type: string
+        description: "Extra Setup"
+
   workflow_call:
     inputs:
       primaryId:
@@ -82,6 +86,8 @@ jobs:
   match-dispatchId:
     if: ${{ inputs.dispatchId }}
     runs-on: [ubuntu-latest]
+    outputs:
+      setup: ${{ steps.setup.outputs.result }}
     steps:
       - id: dispatch-id
         name: dispatchId:${{ inputs.dispatchId }}
@@ -89,6 +95,33 @@ jobs:
 
       - name: Mask secret
         run: echo "::add-mask::${{ inputs.login_password }}"
+  
+      - uses: 'actions/github-script@v6'
+        id: setup
+        env:
+          LOGIN_USERNAME: ${{ inputs.login_username }}
+          LOGIN_PASSWORD: ${{ inputs.login_password }}
+          SETUP_INSTRUCTIONS: ${{ inputs.setup-instructions }}
+        with:
+          script: |
+            let instructions = [];
+            const username = process.env.LOGIN_USERNAME;
+            const password = process.env.LOGIN_PASSWORD;
+            const setup = process.env.SETUP_INSTRUCTIONS;
+
+            if (username && password) {
+              instructions.push(`login with username ${ username }} and password ${ login_password }`)
+            }
+
+            if (setup) {
+              instructions = [...instructions, ...setup.split(";")];
+            }
+
+            if (instructions.length) {
+              instructions.push("/save prerun.yml");
+            }
+
+            return JSON.stringify(instructions);
 
 
   generate-exploratory:
@@ -103,11 +136,10 @@ jobs:
       previous-file: ${{ inputs.previous-file }}
       prerun: ${{ inputs.prerun }}
       app-type: ${{ inputs.app-type }}
+      setup-instructions: $${{ needs.outputs.setup }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      LOGIN_USERNAME: ${{ inputs.login_username }}
-      LOGIN_PASSWORD: ${{ inputs.login_password }}
 
   generate-regression:
     needs: generate-exploratory
@@ -121,8 +153,6 @@ jobs:
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      LOGIN_USERNAME: ${{ inputs.login_username }}
-      LOGIN_PASSWORD: ${{ inputs.login_password }}
 
   generate-next-depth:
     if: ${{inputs.depth != inputs.max-depth}}

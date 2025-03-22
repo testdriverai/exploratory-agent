@@ -29,10 +29,6 @@ on:
         required: true
       GH_TOKEN:
         required: true
-      LOGIN_USERNAME:
-        required: false
-      LOGIN_PASSWORD:
-        required: false
 
     outputs:
       results:
@@ -81,8 +77,8 @@ jobs:
           CONTENT=$(cat ./testdriver/generate/${{ matrix.markdown }}.md)
           echo "MARKDOWN_CONTENT<<EOF" >> $GITHUB_ENV
 
-          if [ -f "./testdriver/login.yml" ]; then
-            echo "0. /run testdriver/login.yml" >> $GITHUB_ENV
+          if [ -f "./testdriver/prerun.yml" ]; then
+            echo "0. /run testdriver/prerun.yml" >> $GITHUB_ENV
           fi
 
           echo "$CONTENT" >> $GITHUB_ENV

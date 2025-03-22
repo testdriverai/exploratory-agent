@@ -36,15 +36,16 @@ on:
       app-type:
         type: string
         required: true
+      setup-instructions:
+        type: string
+        require: false
+        default: "[]"
+
     secrets:
       TESTDRIVER_API_KEY:
         required: true
       GH_TOKEN:
         required: true
-      LOGIN_USERNAME:
-        description: The username to use for login
-      LOGIN_PASSWORD:
-        description: The password to use for login
     outputs:
       pr-branch:
         value: ${{ jobs.exploratory.outputs.pr-branch }}
@@ -67,29 +68,19 @@ jobs:
           DEPTH: ${{ inputs.depth }}
           BREADTH: ${{ inputs.breadth }}
           PREVIOUS_FILE: ${{ inputs.previous-file }}
-          LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
-          LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+          SETUP_INSTRUCTIONS: ${{ inputs.setup-instructions }}
         with:
           script: |
             const depth = parseInt(process.env.DEPTH)
             const breadth = parseInt(process.env.BREADTH)
-            const username = process.env.LOGIN_USERNAME
-            const password = process.env.LOGIN_PASSWORD
-            let loginFile = depth === 1 && username && password ? 'login.yml' : ''
-            let previousFile = loginFile || process.env.PREVIOUS_FILE
+            let previousFile = process.env.PREVIOUS_FILE
 
             let instructions = [
+              ...JSON.parse(process.env.SETUP_INSTRUCTIONS),
               `/generate ${{inputs.app-type}} ${breadth}${previousFile ? ` testdriver/${previousFile} --skip-yaml` : ''}`,
               "/summarize"
             ]
               
-            if(loginFile) {
-              instructions = [
-                `login with username "${username}" and password "${password}"`,
-                `/save testdriver/${loginFile}`,
-                ...instructions,
-              ]
-            }
             const prompt = instructions.map((instruction, i) => `${i + 1}. ${instruction}`).join("\n")
             return prompt
 

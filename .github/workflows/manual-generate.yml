@@ -20,6 +20,8 @@ on:
         type: string
       password:
         type: string
+      setup: 
+        type: string
 
 jobs:
   generate-prerun:
@@ -70,6 +72,7 @@ jobs:
       login_password: ${{ inputs.password }}
       prerun: ${{ needs.generate-prerun.outputs.prerun }}
       app-type: ${{ needs.generate-prerun.outputs.app-type }}
+      setup: ${{ inputs.setup }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
