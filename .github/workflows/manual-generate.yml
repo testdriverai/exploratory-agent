@@ -98,7 +98,7 @@ jobs:
       max-depth: ${{ fromJson(inputs.max-depth) }}
       prerun: ${{ needs.generate-prerun.outputs.prerun }}
       app-type: ${{ needs.generate-prerun.outputs.app-type }}
-      setup: ${{ needs.generate-prerun.outputs.setup }}
+      setup-instructions: ${{ needs.generate-prerun.outputs.setup }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
