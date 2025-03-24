@@ -1,0 +1,27 @@
+version: 4.2.12
+session: 67e1ea2497532e5178f67a69
+steps:
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Enter a valid username and password.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+  - prompt: Click the "Login" button.
+    commands:
+      - command: hover-text
+        text: Login
+        description: login button below the password field
+        action: click
