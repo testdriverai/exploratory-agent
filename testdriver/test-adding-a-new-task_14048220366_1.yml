@@ -1,0 +1,53 @@
+version: 4.2.12
+session: 67e1f12aa51b3bc1f44fd640
+steps:
+  - prompt: Click on "Add a new task" input field.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser
+  - prompt: Click on "Add a new task" input field.
+    commands:
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on "Add a new task" input field.
+    commands:
+      - command: hover-text
+        text: OK
+        description: password warning confirmation button
+        action: click
+      - command: hover-text
+        text: Continue to App
+        description: button to proceed past cookie preferences
+        action: click
+  - prompt: Click on "Add a new task" input field.
+    commands:
+      - command: hover-text
+        text: Add a new task...
+        description: input field for adding a new task
+        action: click
+  - prompt: Type in a new task name.
+    commands:
+      - command: type
+        text: New Task Name
+  - prompt: Click the "Add" button.
+    commands:
+      - command: hover-text
+        text: Add
+        description: button to add a new task
+        action: click
+  - prompt: Assert that the new task appears in the "My Tasks" list.
+    commands:
+      - command: assert
+        expect: New Task Name is visible in the My Tasks list
