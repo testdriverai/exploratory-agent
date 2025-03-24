@@ -1,0 +1,29 @@
+version: 4.2.12
+session: 67e1e41c97532e5178f67a03
+steps:
+  - prompt: login with username alex and password fff3423
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: alex
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: fff3423
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: >-
+      Click past any sort of screen to get to the main app, such as terms and
+      conditions, agreements, or notifications
+    commands:
+      - command: hover-text
+        text: Continue to App
+        description: button to proceed past cookie preferences
+        action: click
