@@ -75,7 +75,7 @@ jobs:
             const setup = process.env.SETUP_INSTRUCTIONS;
 
             if (username && password) {
-              instructions.push(`login with username ${ username }} and password ${ password }`)
+              instructions.push(`login with username ${ username } and password ${ password }`)
             }
 
             if (setup) {
