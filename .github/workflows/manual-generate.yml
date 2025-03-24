@@ -11,7 +11,7 @@ on:
         default: 1
       website-url:
         type: string
-        default: "https://kzmkgze3v46fyc6paipj.lite.vusercontent.net/login"
+        default: "https://kzmldhr6mdrsvg0dondt.lite.vusercontent.net/login"
       app-url:
         type: string
       prerun:
