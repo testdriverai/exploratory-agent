@@ -165,7 +165,8 @@ jobs:
                     "max-depth": "" + ${{ inputs.max-depth }},
                     "previous-file": item.filename,
                     "prerun": ${{ toJson(inputs.prerun) }},
-                    "app-type": "${{ inputs.app-type }}"
+                    "app-type": "${{ inputs.app-type }}",
+                    "setup-instructions": "${{ inputs.setup-instructions }}"
                   }
                 })
               });
