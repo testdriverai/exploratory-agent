@@ -22,6 +22,7 @@ on:
         type: string
       setup: 
         type: string
+        default: Click past any sort of screen to get to the main app, such as terms and conditions, agreements, or notifications
 
 jobs:
   generate-prerun:
