@@ -1,0 +1,53 @@
+version: 4.2.12
+session: 67e1e60597532e5178f67a1b
+steps:
+  - prompt: Click on the "New List" button.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser
+  - prompt: Click on the "New List" button.
+    commands:
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on the "New List" button.
+    commands:
+      - command: hover-text
+        text: Continue to App
+        description: continue button on cookie preferences dialog
+        action: click
+  - prompt: Click on the "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: button to create a new list
+        action: click
+  - prompt: Enter a name for the new list.
+    commands:
+      - command: hover-text
+        text: List name
+        description: input field for new list name
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Save the new list.
+    commands:
+      - command: hover-text
+        text: Create
+        description: button to save the new list
+        action: click
+  - prompt: Assert that the new list appears in the "Todo Lists" section.
+    commands:
+      - command: assert
+        expect: My New List is visible in the Todo Lists section
