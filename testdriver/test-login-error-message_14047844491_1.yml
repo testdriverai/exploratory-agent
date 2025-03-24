@@ -1,0 +1,21 @@
+version: 4.2.12
+session: 67e1ea2197532e5178f67a67
+steps:
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Leave the username and password fields blank.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Click the "Login" button.
+    commands:
+      - command: hover-text
+        text: Login
+        description: login button on the form
+        action: click
+  - prompt: Assert that an error message is displayed indicating required fields.
+    commands:
+      - command: assert
+        expect: an error message is displayed indicating required fields
