@@ -1,0 +1,29 @@
+version: 4.2.12
+session: 67e1ef6297532e5178f67aaf
+steps:
+  - prompt: login with username rstrsdrst and password 12312312312
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: rstrsdrst
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: 12312312312
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: >-
+      Click past any sort of screen to get to the main app, such as terms and
+      conditions, agreements, or notifications
+    commands:
+      - command: hover-text
+        text: Continue to App
+        description: button to proceed past cookie preferences
+        action: click
