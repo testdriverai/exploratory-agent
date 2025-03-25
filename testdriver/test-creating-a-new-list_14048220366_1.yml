@@ -1,0 +1,55 @@
+version: 4.2.12
+session: 67e1f130a51b3bc1f44fd643
+steps:
+  - prompt: Click the "New List" button.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click the "New List" button.
+    commands:
+      - command: hover-text
+        text: OK
+        description: dismiss password change warning
+        action: click
+      - command: hover-text
+        text: Continue to App
+        description: continue past cookie preferences
+        action: click
+  - prompt: Click the "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: new list button in the todo app
+        action: click
+  - prompt: Enter a name for the new list.
+    commands:
+      - command: hover-text
+        text: List name
+        description: input field for the new list name in the create new list dialog
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Confirm the creation of the list.
+    commands:
+      - command: hover-text
+        text: Create
+        description: create button in the create new list dialog
+        action: click
+  - prompt: Assert that the list is displayed on the interface.
+    commands:
+      - command: assert
+        expect: the "My New List" tab is visible in the Todo App
