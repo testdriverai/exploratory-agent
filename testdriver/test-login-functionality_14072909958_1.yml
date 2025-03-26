@@ -1,0 +1,33 @@
+version: 4.2.12
+session: 67e34fa6e166e87893ec1cc8
+steps:
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Click on the username input field and type a valid username or email.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser@example.com
+  - prompt: Click on the password input field and type a valid password.
+    commands:
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: validpassword123
+  - prompt: Click the "Login" button.
+    commands:
+      - command: hover-text
+        text: Login
+        description: login button below the password field
+        action: click
+  - prompt: Assert that the user is redirected to the main app dashboard.
+    commands:
+      - command: assert
+        expect: Cookie Preferences dialog is visible
