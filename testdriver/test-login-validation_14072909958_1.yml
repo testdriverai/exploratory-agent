@@ -1,0 +1,39 @@
+version: 4.2.12
+session: 67e34fafe166e87893ec1ccd
+steps:
+  - prompt: Focus the browser window.
+    commands:
+      - command: focus-application
+        name: Google Chrome
+  - prompt: Click on the "Login" button without entering any data.
+    commands:
+      - command: hover-text
+        text: Login
+        description: login button on the form
+        action: click
+  - prompt: Assert that an error message indicating required fields is displayed.
+    commands:
+      - command: assert
+        expect: an error message indicating required fields is displayed
+  - prompt: Enter an invalid username or email.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: invalid-email@
+  - prompt: Enter an invalid password.
+    commands:
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: invalidpass
+  - prompt: Click the "Login" button.
+    commands:
+      - command: hover-text
+        text: Login
+        description: login button below the password field
+        action: click
