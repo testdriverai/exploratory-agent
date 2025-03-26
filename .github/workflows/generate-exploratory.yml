@@ -9,10 +9,17 @@ permissions:
 on:
   workflow_call:
     inputs:
-      website-url:
+      primaryId:
+        type: string
+        required: true
+        description: Primary Run ID to carry through layers
+      prerun:
         type: string
         required: true
       depth:
+        type: number
+        required: true
+      breadth:
         type: number
         required: true
       max-depth:
@@ -26,15 +33,19 @@ on:
         type: string
         required: false
         description: Filename containing markdown content from previous regression step
+      app-type:
+        type: string
+        required: true
+      setup-instructions:
+        type: string
+        required: false
+        default: "[]"
+
     secrets:
       TESTDRIVER_API_KEY:
         required: true
       GH_TOKEN:
         required: true
-      LOGIN_USERNAME:
-        description: The username to use for login
-      LOGIN_PASSWORD:
-        description: The password to use for login
     outputs:
       pr-branch:
         value: ${{ jobs.exploratory.outputs.pr-branch }}
@@ -55,47 +66,34 @@ jobs:
         id: create-prompt
         env:
           DEPTH: ${{ inputs.depth }}
+          BREADTH: ${{ inputs.breadth }}
           PREVIOUS_FILE: ${{ inputs.previous-file }}
-          LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
-          LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
+          SETUP_INSTRUCTIONS: ${{ inputs.setup-instructions }}
         with:
           script: |
             const depth = parseInt(process.env.DEPTH)
-            const username = process.env.LOGIN_USERNAME
-            const password = process.env.LOGIN_PASSWORD
-            let loginFile = depth === 1 && username && password ? 'login.yml' : ''
-            let previousFile = loginFile || process.env.PREVIOUS_FILE
+            const breadth = parseInt(process.env.BREADTH)
+            let previousFile = process.env.PREVIOUS_FILE
 
             let instructions = [
-              `/generate web 3${previousFile ? ` testdriver/${previousFile} --skip-yaml` : ''}`,
+              ...JSON.parse(process.env.SETUP_INSTRUCTIONS),
+              `/generate ${{inputs.app-type}} ${breadth}${previousFile ? ` testdriver/${previousFile} --skip-yaml` : ''}`,
               "/summarize"
             ]
               
-            if(loginFile) {
-              instructions = [
-                `login with username "${username}" and password "${password}"`,
-                `/save testdriver/${loginFile}`,
-                ...instructions,
-              ]
-            }
             const prompt = instructions.map((instruction, i) => `${i + 1}. ${instruction}`).join("\n")
-            console.log(prompt)
             return prompt
 
       - uses: testdriverai/action@main
         continue-on-error: true
-        with:
+        with: 
+          version: 4.2.12
           key: ${{ secrets.TESTDRIVER_API_KEY }}
           prompt: ${{ fromJson(steps.create-prompt.outputs.result) }}
-          prerun: |
-            cd $env:TEMP
-            npm init -y
-            npm install dashcam-chrome
-            Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized","--load-extension=$(pwd)/node_modules/dashcam-chrome/build","${{ inputs.website-url }}"
-            exit
+          prerun: ${{ inputs.prerun }}
           create-pr: true
           pr-base: ${{ inputs.base-branch }}
-          pr-title: 'TestDriver.ai / Generate Test Plans - Depth ${{ inputs.depth }}/${{ inputs.max-depth }}'
+          pr-title: 'Explore - Depth ${{ inputs.depth }}/${{ inputs.max-depth }} [${{ inputs.primaryId }}]'
           pr-branch: ${{ steps.create-pr-branch.outputs.pr-branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

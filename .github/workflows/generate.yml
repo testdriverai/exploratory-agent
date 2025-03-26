@@ -9,51 +9,77 @@ permissions:
 on:
   workflow_dispatch:
     inputs:
+      primaryId:
+        type: string
+        required: true
+        description: Primary Run ID to carry through layers
       dispatchId:
         type: string
       depth:
         type: number
         default: 1
+      breadth:
+        type: number
+        default: 2
       max-depth:
         type: number
         default: 1
-      website-url:
+      prerun:
         type: string
         required: true
       previous-file:
         type: string
         description: Previous test yaml file to use as a base
+      app-type:
+        type: string
+        description: Type of app, desktop or web
+      setup-instructions:
+        type: string
+        description: "Extra Setup"
+        default: "[]"
 
   workflow_call:
     inputs:
+      primaryId:
+        type: string
+        required: true
+        description: Primary Run ID to carry through layers
       dispatchId:
         type: string
       depth:
         type: number
         default: 1
+      breadth:
+        type: number
+        default: 2
       max-depth:
         type: number
         default: 1
-      website-url:
+      prerun:
         type: string
         required: true
       previous-file:
         type: string
         description: Previous test yaml file to use as a base
+      app-type:
+        type: string
+        description: Type of app, desktop or web
+      setup-instructions:
+        type: string
+        default: "[]"
+
     secrets:
       TESTDRIVER_API_KEY:
         required: true
       GH_TOKEN:
         required: true
-      LOGIN_USERNAME:
-        required: false
-      LOGIN_PASSWORD:
-        required: false
 
 jobs:
   match-dispatchId:
     if: ${{ inputs.dispatchId }}
     runs-on: [ubuntu-latest]
+    outputs:
+      setup: ${{ steps.setup.outputs.result }}
     steps:
       - id: dispatch-id
         name: dispatchId:${{ inputs.dispatchId }}
@@ -63,11 +89,15 @@ jobs:
     needs: match-dispatchId
     uses: ./.github/workflows/generate-exploratory.yml
     with:
+      primaryId: ${{ inputs.primaryId }}
       depth: ${{ fromJson(inputs.depth) }}
+      breadth: ${{ fromJson(inputs.breadth) }}
       max-depth: ${{ fromJson(inputs.max-depth) }}
-      website-url: ${{ inputs.website-url }}
       base-branch: ${{ github.ref_name }}
       previous-file: ${{ inputs.previous-file }}
+      prerun: ${{ inputs.prerun }}
+      app-type: ${{ inputs.app-type }}
+      setup-instructions: ${{ inputs.setup-instructions }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -78,13 +108,16 @@ jobs:
     needs: generate-exploratory
     uses: ./.github/workflows/generate-regressions.yml
     with:
+      primaryId: ${{ inputs.primaryId }}
       depth: ${{ fromJson(inputs.depth) }}
       max-depth: ${{ fromJson(inputs.max-depth) }}
-      website-url: ${{ inputs.website-url }}
       base-branch: ${{ needs.generate-exploratory.outputs.pr-branch }}
+      prerun: ${{ inputs.prerun }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      LOGIN_USERNAME: ${{ secrets.LOGIN_USERNAME }}
+      LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
 
   generate-next-depth:
     if: ${{inputs.depth != inputs.max-depth}}
@@ -97,9 +130,9 @@ jobs:
         uses: actions/github-script@v6
         env:
           RESULTS: ${{ needs.generate-regression.outputs.results }}
-          TOKEN: ${{ secrets.GH_PAT_TOKEN }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          github-token: ${{ secrets.GH_PAT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const results = [];
 
@@ -112,7 +145,7 @@ jobs:
               })
                 .then(()=>true)
                 .catch(()=>false)
-              
+
               if(!branchExists) {
                 console.log(`Branch ${item.branch} does not exist, skipping workflow dispatch`);
                 continue              
@@ -131,9 +164,13 @@ jobs:
                   ref: item.branch,
                   inputs: {
                     "dispatchId": dispatchId,
+                    "primaryId": "${{ inputs.primaryId }}",
                     "depth": "" + (${{ inputs.depth }} + 1),
                     "max-depth": "" + ${{ inputs.max-depth }},
-                    "previous-file": item.filename
+                    "previous-file": item.filename,
+                    "prerun": ${{ toJson(inputs.prerun) }},
+                    "app-type": "${{ inputs.app-type }}",
+                    "setup-instructions": "${{ inputs.setup-instructions }}"
                   }
                 })
               });

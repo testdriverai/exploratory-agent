@@ -3,31 +3,157 @@ name: Main Workflow Dispatch
 on:
   workflow_dispatch:
     inputs:
-      depth:
+      breadth:
+        type: number
+        default: 2
+        description: "The number of tests to generate at each level of the tree"
+      max_depth:
         type: number
         default: 1
-      max-depth:
-        type: number
-        default: 1
-      website-url:
+        description: "The maximum depth of the tree"
+      website_url:
         type: string
-        default: "https://kzmin4o8zlrumvqikugo.lite.vusercontent.net/login"
-      username:
+        description: "The URL of the website to test"
+      app_url:
         type: string
-      password:
+        description: "The URL of the app executable to test. Will download the app"
+      prerun:
         type: string
+        description: "Pre-run PS script to run before everything"
+      login_username:
+        type: string
+        description: "The username to use for logging in"
+      login_password:
+        type: string
+        description: "The password to use for logging in"
+      setup_instructions: 
+        type: string
+        default: Click past any sort of screen to get to the main app, such as terms and conditions, agreements, or notifications
+        description: "The setup instructions to run before the tests. Seperate lines with a semicolon"
 
 jobs:
+  # Initialize Variables
+  init:
+    runs-on: ubuntu-latest
+    outputs:
+      prerun_script: ${{ steps.set_prerun.outputs.prerun }}
+      app_type: ${{ steps.set_app_type.outputs.app_type }}
+      setup_json: ${{ steps.set_setup_instructions.outputs.result }}
+
+    steps:
+      # This step gets inputs and uses the "secret" or "var" version if it exists
+      - name: Get Inputs 
+        id: inputs
+        run: |
+          if [ -n "${{ secrets.LOGIN_PASSWORD }}" ]; then
+            echo "login_password=${{ secrets.LOGIN_PASSWORD }}" >> $GITHUB_OUTPUT
+          else
+            echo "login_password=${{ inputs.login_password }}" >> $GITHUB_OUTPUT
+          fi
+
+          if [ -n "${{ secrets.LOGIN_USERNAME }}" ]; then
+            echo "login_username=${{ secrets.LOGIN_USERNAME }}" >> $GITHUB_OUTPUT
+          else
+            echo "login_username=${{ inputs.login_username }}" >> $GITHUB_OUTPUT
+          fi
+
+          if [ -n "${{ vars.TESTDRIVER_WEBSITE }}" ]; then
+            echo "website_url=${{ vars.TESTDRIVER_WEBSITE }}" >> $GITHUB_OUTPUT
+          else
+            echo "website_url=${{ inputs.website_url }}" >> $GITHUB_OUTPUT
+          fi
+          
+          if [ -n "${{ vars.TESTDRIVER_APP_URL }}" ]; then
+            echo "app_url=${{ vars.TESTDRIVER_APP_URL }}" >> $GITHUB_OUTPUT
+          else
+            echo "app_url=${{ inputs.app_url }}" >> $GITHUB_OUTPUT
+          fi
+
+          if [ -n "${{ vars.TESTDRIVER_PRERUN }}" ]; then
+            echo "prerun=${{ vars.TESTDRIVER_PRERUN }}" >> $GITHUB_OUTPUT
+          else
+            echo "prerun=${{ inputs.prerun }}" >> $GITHUB_OUTPUT
+          fi
+
+          if [ -n "${{ vars.TESTDRIVER_SETUP_INSTRUCTIONS }}" ]; then
+            echo "setup_instructions=${{ vars.TESTDRIVER_SETUP_INSTRUCTIONS }}" >> $GITHUB_OUTPUT
+          else
+            echo "setup_instructions=${{ inputs.setup_instructions }}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set PRERUN variable
+        id: set_prerun
+        run: |
+          {
+            echo "prerun<<EOF"
+
+            if [ -n "${{ steps.inputs.outputs.app_url }}" ]; then
+              echo "Invoke-WebRequest ${{ steps.inputs.outputs.app_url }} -OutFile app.exe"
+              echo "Start-Process ./app.exe"
+
+            elif [ -n "${{ steps.inputs.outputs.website_url }}" ]; then
+              cat << 'SCRIPT'
+          cd $env:TEMP
+          npm init -y
+          npm install dashcam-chrome
+          Start-Process "C:/Program Files/Google/Chrome/Application/chrome.exe" -ArgumentList "--start-maximized","--load-extension=$(pwd)/node_modules/dashcam-chrome/build","${{ steps.inputs.outputs.website_url }}"
+          SCRIPT
+            fi
+
+            echo "${{ steps.inputs.ouputs.prerun }}"
+            echo "exit"
+            echo "EOF"
+
+          } >> $GITHUB_OUTPUT
+
+      - name: Set app_type variable
+        id: set_app_type
+        run: |
+            if [ -n "${{ steps.inputs.outputs.app_url }}" ]; then
+              echo "app_type=desktop" >> $GITHUB_OUTPUT
+            elif [ -n "${{ steps.inputs.outputs.website_url }}" ]; then
+              echo "app_type=web" >> $GITHUB_OUTPUT
+            fi
+
+      - uses: 'actions/github-script@v6'
+        id: set_setup_instructions
+        env:
+          LOGIN_USERNAME: ${{ steps.inputs.outputs.login_username }}
+          LOGIN_PASSWORD: ${{ steps.inputs.outputs.login_password }}
+          SETUP_INSTRUCTIONS: ${{ steps.inputs.outputs.setup_instructions }}
+        with:
+          script: |
+            let instructions = [];
+            const username = process.env.LOGIN_USERNAME;
+            const password = process.env.LOGIN_PASSWORD;
+            const setup = process.env.SETUP_INSTRUCTIONS;
+
+            if (username && password) {
+              instructions.push(`login with username ${ username } and password ${ password }`)
+            }
+
+            if (setup) {
+              instructions = [...instructions, ...setup.split(";")];
+            }
+
+            if (instructions.length) {
+              instructions.push("/save prerun.yml");
+            }
+
+            return instructions;
+
   generate:
     uses: ./.github/workflows/generate.yml
+    needs: [init]
     with:
-      dispatchId: manual-${{ github.run_id }}
-      depth: ${{ fromJson(inputs.depth) }}
-      max-depth: ${{ fromJson(inputs.max-depth) }}
-      website-url: ${{ inputs.website-url }}
+      dispatchId: exploratory-${{ github.run_id }}
+      primaryId: ${{ github.run_id }}
+      breadth: ${{ fromJson(inputs.breadth) }}
+      max-depth: ${{ fromJson(inputs.max_depth) }}
+      prerun: ${{ needs.init.outputs.prerun_script }}
+      app-type: ${{ needs.init.outputs.app_type }}
+      setup-instructions: ${{ needs.init.outputs.setup_json }}
     secrets:
       TESTDRIVER_API_KEY: ${{ secrets.TESTDRIVER_API_KEY }}
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      LOGIN_USERNAME: ${{ inputs.username }}
-      LOGIN_PASSWORD: ${{ inputs.password }}
 
