@@ -1,0 +1,67 @@
+version: 4.2.12
+session: 67e351e23758c7759787b6a8
+steps:
+  - prompt: Click on "New List" button.
+    commands:
+      - command: hover-text
+        text: Enter username or email
+        description: username input field
+        action: click
+      - command: type
+        text: testuser
+      - command: hover-text
+        text: Enter your password
+        description: password input field
+        action: click
+      - command: type
+        text: password123
+      - command: hover-text
+        text: Login
+        description: login button
+        action: click
+  - prompt: Click on "New List" button.
+    commands:
+      - command: hover-text
+        text: Continue to App
+        description: continue button on cookie preferences dialog
+        action: click
+  - prompt: Click on "New List" button.
+    commands:
+      - command: hover-text
+        text: New List
+        description: new list button on the Todo App page
+        action: click
+  - prompt: Enter a list name when prompted.
+    commands:
+      - command: hover-text
+        text: List name
+        description: list name input field in the Create New List dialog
+        action: click
+      - command: type
+        text: My New List
+  - prompt: Save the new list.
+    commands:
+      - command: hover-text
+        text: Create
+        description: create button in the Create New List dialog
+        action: click
+  - prompt: Assert that the new list appears in the navigation.
+    commands:
+      - command: assert
+        expect: My New List is visible in the navigation
+  - prompt: Assert that there are no errors.
+    commands:
+      - command: assert
+        expect: no error messages are visible
+  - prompt: Assert that there are no errors.
+    commands:
+      - command: assert
+        expect: no error messages are visible
+  - prompt: Assert that there are no errors.
+    commands:
+      - command: assert
+        expect: no error messages are visible
+  - prompt: Assert that there are no errors.
+    commands:
+      - command: assert
+        expect: no error messages are visible
