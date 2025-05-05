@@ -51,7 +51,7 @@ jobs:
         shell: bash
         run: echo "pr-branch=testdriver/exploratory-${{ github.run_id }}-${{ github.run_attempt }}" >> $GITHUB_OUTPUT
 
-      - uses: 'actions/github-script@v6'
+      - uses: "actions/github-script@v6"
         id: create-prompt
         env:
           DEPTH: ${{ inputs.depth }}
@@ -79,7 +79,7 @@ jobs:
               ]
             }
             const prompt = instructions.map((instruction, i) => `${i + 1}. ${instruction}`).join("\n")
-            console.log(prompt)
+            console.log(prompt.replace(/^1\..*$/m, "1. login with username and password")); // mask the credentials
             return prompt
 
       - uses: testdriverai/action@main
@@ -95,8 +95,8 @@ jobs:
             exit
           create-pr: true
           pr-base: ${{ inputs.base-branch }}
-          pr-title: 'TestDriver.ai / Generate Test Plans - Depth ${{ inputs.depth }}/${{ inputs.max-depth }}'
+          pr-title: "TestDriver.ai / Generate Test Plans - Depth ${{ inputs.depth }}/${{ inputs.max-depth }}"
           pr-branch: ${{ steps.create-pr-branch.outputs.pr-branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FORCE_COLOR: '3'
+          FORCE_COLOR: "3"
